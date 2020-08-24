@@ -56,7 +56,7 @@ mpiexec -n 10 python3 main.py icra_new
 
 2. Planner Parallel Logic:
 
-![image](./images/planning_diagram.jpg)
+![image](./images/planner_diagram.jpg)
 
 - Noticed That the optimal trajectory can contain multiple criteria:
     - Shortest.
