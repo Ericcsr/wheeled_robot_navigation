@@ -1,5 +1,6 @@
 # 2D Omni Robot Navigation
 **This repository belongs to HKU RoboMaster ICRA Challenge Team, serves as material for 2020 DJI ICRA AI Challenge.**
+![image](./images/cover.jpg)
 ## Introduction:
 Efficient navigation in narrow space and facing multiple dynamic obstacles has always been a problem in robotics by the nature that the environment is often complex and onboard computational power is limited. 
 
