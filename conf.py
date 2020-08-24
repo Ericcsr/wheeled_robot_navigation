@@ -1,4 +1,4 @@
-MIN_NUM_VERT = 20  # Minimum number of vertex in the graph
+MIN_NUM_VERT = 5  # Minimum number of vertex in the graph
 MAX_NUM_VERT = 5000  # Maximum number of vertex in the graph
 VMAX = 1.0
 THRESH = 0.5
