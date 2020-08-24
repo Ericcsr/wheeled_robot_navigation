@@ -34,3 +34,4 @@ mpiexec -n 10 python3 main.py icra_new
 ```
 - Select a start point on the displayed map.
 - Select a goal point on the displayed map.
+
