@@ -85,8 +85,11 @@ mpiexec -n 10 python3 main.py icra_new
 ## References
 ### Open Source Code
 > https://github.com/MengGuo/RVO_Py_MAS
+
 > https://github.com/ArianJM/rapidly-exploring-random-trees
 ### Papers:
 > Haitao, G., Qingbao, Z., & Shoujiang, X. (2007). Rapid-exploring random tree algorithm for path planning of robot based on grid method. Journal of Nanjing Normal University (Engineering and Technology Edition), 2, 58-61.
+
 > Islam, F., Nasir, J., Malik, U., Ayaz, Y., & Hasan, O. (2012, August). Rrt∗-smart: Rapid convergence implementation of rrt∗ towards optimal solution. In 2012 IEEE International Conference on Mechatronics and Automation (pp. 1651-1656). IEEE.
+
 > Van den Berg, J., Lin, M., & Manocha, D. (2008, May). Reciprocal velocity obstacles for real-time multi-agent navigation. In 2008 IEEE International Conference on Robotics and Automation (pp. 1928-1935). IEEE.
