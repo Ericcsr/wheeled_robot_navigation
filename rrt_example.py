@@ -9,10 +9,10 @@ if len(sys.argv) != 2:
     print('Usage: python3 rrt_example.py <map>')
     exit(0)
 else:
-    MAP_IMG = './map/'+sys.argv[1]+'.bmp'  # Black and white image for a map    
+    MAP_IMG = './maps/'+sys.argv[1]+'.bmp'  # Black and white image for a map    
 
 MIN_NUM_VERT = 20  # Minimum number of vertex in the graph
-MAX_NUM_VERT = 100000  # Maximum number of vertex in the graph
+MAX_NUM_VERT = 5000  # Maximum number of vertex in the graph
 STEP_DISTANCE = 10  # Maximum distance between two vertex
 SEED = None  # For random numbers
 
@@ -84,6 +84,9 @@ def rapidlyExploringRandomTree(ax, img, start, goal, seed=None):
         print
         'Goal found, total vertex in graph:', len(points), 'total random points generated:', i
         path = searchPath(graph, start, [start])
+        if path == None:
+            print(None)
+            exit(-1)
 
         for i in range(len(path) - 1):
             ax.plot([path[i][0], path[i + 1][0]], [path[i][1], path[i + 1][1]], color='g', linestyle='-', linewidth=2)

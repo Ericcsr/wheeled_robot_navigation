@@ -223,17 +223,19 @@ class Tools:
 
     @staticmethod
     def pix2world(path):
+        p = copy.deepcopy(path)
         for i in range(len(path)):
-            path[i][0] *= (8.5/202)
-            path[i][1] = 4.5-path[i][1]*(4.5/107) 
-        return path
+            p[i][0] *= (8.5/202)
+            p[i][1] = 4.5-p[i][1]*(4.5/107) 
+        return p
 
     @staticmethod
     def world2pix(path):
+        p = copy.deepcopy(path)
         for i in range(len(path)):
-            path[i][0] *= (202/8.5)
-            path[i][1] = 107 - path[i][1]*(107/4.5)
-        return path
+            p[i][0] *= (202/8.5)
+            p[i][1] = 107 - p[i][1]*(107/4.5)
+        return p
 
     @staticmethod
     def toWorldLen(length):

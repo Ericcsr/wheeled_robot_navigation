@@ -7,6 +7,15 @@ Efficient navigation in narrow space and facing multiple dynamic obstacles has a
 There has been many attempts to tackle the problem from different perspectives. Traditional optimal planning method including A* and Dijkstra algorithm can guarantee an optimal solution but time the complexity in high dimension and resolution grid map is not realistic in small platform like wheeled robot. Probabilistic method has been invented by Lydia E. Kavraki and branched out to be probabilistic roadmap method and rapid exploring random tree(RRT). **These method accelerate the planning problem significantly in high dimensional configuration space.However,since these methods are only probabilisticly complete and doesn't guarantee optimal, naively apply these methods in motion planning problem is likely to fail when planning through narrow space or suffers from very wiggly trajectories.Heuristic Sampling around obstacle edges prefers narrow space planning, but tend to yield wiggly result in a more general map** 
 
 Based on this observation  we combine the idea of parallel computation, heuristic sampling rrt and developed an frame work based on RRT and is able to plan efficiently under all kinds of maps and is able to plan trajectories even in very narrow space. To make the Navigation complete we further integrated and modified  Reciprocal Velocity Obstacle Avoidance(RVO),trick of conditional replanning in our frame work in order to avoid collision with other robots or dynamic obstacles.
+## File Structure: Helper files
+- local_rvo:
+    - RVO: Main RVO updates and computation
+    - vis: Visualize and simulate the process
+- maps:
+    - \<maps\>
+    - \<probability maps\>
+- conf.py: Hyperparameter setting
+- extract_prob.py: Extract distribution from probability map
 ## Installation and testing
 ### Environment
 - Ubuntu 18.04
