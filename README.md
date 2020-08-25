@@ -82,9 +82,11 @@ However, since ground truth best path length is not directly measurable. Using m
 1. RVO is a real time dynamic and static obstacle avoidance control policy desiged for large number multi-agent system, it shows significant performance and robustness in simulating large number of agents in symmetric environment with few static obstacles.However, as the shape and number of symmetric obstacles varies, the algorithm usually fall into sub optimal solution and some agent will be to halted.
 2. Since our design is hierarchical in nature, the main purpose of RVO is to avoid dynamic obstacles as well as local static obstacles which haven't been planned to avoid by global planner due to the noisy localization, instead of distant obstacles which has been planned by global planner. Using the entire map as the sensing field for RVO is neither computationally efficient nor friendly to the RVO control.We use local sensing field for RVO, which pratically performs much better than global RVO.
 3. Since the map's dynamic nature, purely use the initial planning result from beginning to the end regardless of the changing of the map is unfeasible and inefficient, we also check for the replanning condition by comparing the expected time of arrival and current time cost on this trajectory and recent speed of robot as listed below:
+
 $${}
 {T_{expected} \le \sum_{current\ traj}t}\brace{V_thresh \ge \frac{1}{5}\sum{0}^5v}
 $$
+
 4. Loose arrival condition: since the localization is noisy in nature and the global planner might still yield wiggly path, we determine whether a robot has reached a waypoint by checking d adjacency. This method can be consider as a smooth filter for RRT planned path.
 
 ![image](./images/smooth.jpg)
