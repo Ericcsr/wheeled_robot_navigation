@@ -84,7 +84,7 @@ However, since ground truth best path length is not directly measurable. Using m
 3. Since the map's dynamic nature, purely use the initial planning result from beginning to the end regardless of the changing of the map is unfeasible and inefficient, we also check for the replanning condition by comparing the expected time of arrival and current time cost on this trajectory and recent speed of robot as listed below:
 
 
-![](http://latex.codecogs.com/gif.latex?\{T_{expected}\le\sum_{current\ traj}t}\brace{V_thresh \ge \frac{1}{5}\sum{0}^5v})
+![](http://latex.codecogs.com/gif.latex?\\{T_{expected}\le\sum_{current\ traj}t}\brace{V_thresh \ge \frac{1}{5}\sum{0}^5v})
 
 
 
