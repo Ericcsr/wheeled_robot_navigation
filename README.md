@@ -83,10 +83,7 @@ However, since ground truth best path length is not directly measurable. Using m
 2. Since our design is hierarchical in nature, the main purpose of RVO is to avoid dynamic obstacles as well as local static obstacles which haven't been planned to avoid by global planner due to the noisy localization, instead of distant obstacles which has been planned by global planner. Using the entire map as the sensing field for RVO is neither computationally efficient nor friendly to the RVO control.We use local sensing field for RVO, which pratically performs much better than global RVO.
 3. Since the map's dynamic nature, purely use the initial planning result from beginning to the end regardless of the changing of the map is unfeasible and inefficient, we also check for the replanning condition by comparing the expected time of arrival and current time cost on this trajectory and recent speed of robot as listed below:
 
-
-![](http://latex.codecogs.com/gif.latex?\\{T_{expected}\le\sum_{current\ traj}t}\brace{V_thresh \ge \frac{1}{5}\sum{0}^5v})
-
-
+<p align="center"><img style="display: block; margin: 0 auto;" src="images/formula.JPG" width="80%" alt="" /></p>
 
 4. Loose arrival condition: since the localization is noisy in nature and the global planner might still yield wiggly path, we determine whether a robot has reached a waypoint by checking d adjacency. This method can be consider as a smooth filter for RRT planned path.
 
