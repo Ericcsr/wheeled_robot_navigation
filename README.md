@@ -66,7 +66,7 @@ mpiexec -n 10 python3 main.py icra_new
 
 ## Design Rationale
 ### Scalable Parallel RRT with multiple distribution assumption
-1. Rapid Exploring Random Tree is a probablistic motion planning algorithm which has time complexity $O(n)$ when n is the maximum sampling number. However, its objective is to find a feasible path instead of a optimal one. Also, this algorithm is only probabilistic complete.
+1. Rapid Exploring Random Tree is a probablistic motion planning algorithm which has time complexity O(n) when n is the maximum sampling number. However, its objective is to find a feasible path instead of a optimal one. Also, this algorithm is only probabilistic complete.
 2. For different possible path pattern the sampling distribution assumption might differ, for example, when navigating in narrow space, sampling around the edge of obstacles is more efficient and often yield better outcome and when navigating in free space with sparse obstacles, random uniform sampling tends to perform better. In AI challenge map, since path depends on task and both of the above situation will occur multi-distribution assumptions are required.
 3. Naively implement RRT has another drawback: Since the maximum step size for a given RRT is fixed, the algorithm tends to suffers from scaling problem with respect to the **ground truth optimal path length**. For distant goals, the optimal step size tends to be larger for faster performance and less wiggly path shape. For close goals, the optimal step size tends to be smaller for flexibility and to prevent overshoot.
 However, since ground truth best path length is not directly measurable. Using multiple steps size assumption can be applicable to tackle the scaling problem.
@@ -83,9 +83,10 @@ However, since ground truth best path length is not directly measurable. Using m
 2. Since our design is hierarchical in nature, the main purpose of RVO is to avoid dynamic obstacles as well as local static obstacles which haven't been planned to avoid by global planner due to the noisy localization, instead of distant obstacles which has been planned by global planner. Using the entire map as the sensing field for RVO is neither computationally efficient nor friendly to the RVO control.We use local sensing field for RVO, which pratically performs much better than global RVO.
 3. Since the map's dynamic nature, purely use the initial planning result from beginning to the end regardless of the changing of the map is unfeasible and inefficient, we also check for the replanning condition by comparing the expected time of arrival and current time cost on this trajectory and recent speed of robot as listed below:
 
-$${}
-{T_{expected} \le \sum_{current\ traj}t}\brace{V_thresh \ge \frac{1}{5}\sum{0}^5v}
-$$
+
+![](http://latex.codecogs.com/gif.latex?\{T_{expected}\le\sum_{current\ traj}t}\brace{V_thresh \ge \frac{1}{5}\sum{0}^5v})
+
+
 
 4. Loose arrival condition: since the localization is noisy in nature and the global planner might still yield wiggly path, we determine whether a robot has reached a waypoint by checking d adjacency. This method can be consider as a smooth filter for RRT planned path.
 
