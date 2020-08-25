@@ -2,6 +2,7 @@ MIN_NUM_VERT = 5  # Minimum number of vertex in the graph
 MAX_NUM_VERT = 5000  # Maximum number of vertex in the graph
 VMAX = 1.0
 THRESH = 0.5
+REPLAN_V_THRESH = 0.3
 
 ws_model = {'robot_radius':0.2,
             'circular_obstacles':[[4.25,2.25,0.2],

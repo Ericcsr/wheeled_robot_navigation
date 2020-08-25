@@ -288,7 +288,7 @@ def worker_task():
         _ = comm.gather(result,root=0)
 
 def server_task():
-    from conf import ws_model,X,V,V_max,goals
+    from conf import ws_model,X,V,V_max,goals,REPLAN_V_THRESH
     from local_rvo.RVO import RVO_update, reach, compute_V_des,reach,Tools,distance
     from local_rvo.vis import visualize_traj_dynamic
     print('Loading map... with file \'', MAP_IMG, '\'')
@@ -323,6 +323,7 @@ def server_task():
         t = 0
         step = 0.05
         print('RVO start')
+        cum_v = [1,1,1,1,1]
         while t*step < desired_time :
             goal = tool.get_goal(X,goals)
             V_des = compute_V_des(X, goal, V_max)
@@ -344,6 +345,9 @@ def server_task():
                 path_image = cv.cvtColor(visualize(optimal_path.path,obs_map),cv.COLOR_RGB2BGR)
                 path_image = cv.resize(path_image,(2*path_image.shape[1],2*path_image.shape[0]),
                              cv.INTER_LINEAR)
+            cum_v[t%5] = math.sqrt(V[0][0]**2+V[0][1]**2)
+            if sum(cum_v/5) <= REPLAN_V_THRESH:
+                break
             if t%2 == 0:
                 # === 480 x 640 x 3 Image === 
                 rvo_image = visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name = 'data/out{0}.png'.format(cnt),save=False)
@@ -359,7 +363,7 @@ def server_task():
             t+=1
         else:
             # == Conditions for replanning ==
-            if distance(X[0],goal[0]) < conf.THRESH:
+            if distance(X[0],Tools.pix2world([pgoal])[0]) < conf.THRESH:
                 print('Target Reached!')
                 return
             pstart = Tools.world2pix([X[0]])[0]
