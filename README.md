@@ -73,7 +73,7 @@ However, since ground truth best path length is not directly measurable. Using m
 
 <p align="center"><img style="display: block; margin: 0 auto;" src="images/small_step.JPG" width="80%" alt="" /></p>  
 <p align="center">Small steps size need more point and tend to be wiggly</p>  
-<p align="center"><img style="display: block; margin: 0 auto;" src="imags/big_step.JPG" width="80%" alt="" /></p>  
+<p align="center"><img style="display: block; margin: 0 auto;" src="images/big_step.JPG" width="80%" alt="" /></p>  
 <p align="center">Big steps size tend to overshoot</p>  
 
 4. For different assumptions, we parallel the process by using MPI, which significantly speed up the speed of the algorithm.
@@ -86,6 +86,7 @@ $${}
 {T_{expected} \le \sum_{current\ traj}t}\brace{V_thresh \ge \frac{1}{5}\sum{0}^5v}
 $$
 4. Loose arrival condition: since the localization is noisy in nature and the global planner might still yield wiggly path, we determine whether a robot has reached a waypoint by checking d adjacency. This method can be consider as a smooth filter for RRT planned path.
+
 ![image](./images/smooth.jpg)
 
 
