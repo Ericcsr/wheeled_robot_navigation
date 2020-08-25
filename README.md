@@ -70,10 +70,12 @@ mpiexec -n 10 python3 main.py icra_new
 2. For different possible path pattern the sampling distribution assumption might differ, for example, when navigating in narrow space, sampling around the edge of obstacles is more efficient and often yield better outcome and when navigating in free space with sparse obstacles, random uniform sampling tends to perform better. In AI challenge map, since path depends on task and both of the above situation will occur multi-distribution assumptions are required.
 3. Naively implement RRT has another drawback: Since the maximum step size for a given RRT is fixed, the algorithm tends to suffers from scaling problem with respect to the **ground truth optimal path length**. For distant goals, the optimal step size tends to be larger for faster performance and less wiggly path shape. For close goals, the optimal step size tends to be smaller for flexibility and to prevent overshoot.
 However, since ground truth best path length is not directly measurable. Using multiple steps size assumption can be applicable to tackle the scaling problem.
-p align="center"><img style="display: block; margin: 0 auto;" src="images/small_step.JPG" width="80%" alt="" /></p>  
+
+<p align="center"><img style="display: block; margin: 0 auto;" src="images/small_step.JPG" width="80%" alt="" /></p>  
 <p align="center">Small steps size need more point and tend to be wiggly</p>  
 <p align="center"><img style="display: block; margin: 0 auto;" src="imags/big_step.JPG" width="80%" alt="" /></p>  
 <p align="center">Big steps size tend to overshoot</p>  
+
 4. For different assumptions, we parallel the process by using MPI, which significantly speed up the speed of the algorithm.
 
 ### Local Reciprocal Velocity Obstacles Avoidance with replanning
