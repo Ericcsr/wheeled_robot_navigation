@@ -20,9 +20,9 @@ size = comm.Get_size()
 MAP_IMG = './maps/'+task+'.bmp'  # Black and white image for a map
 DISPLAY = MAP_IMG
 #DISPLAY = './maps/'+task+'_orig'+'.bmp' # Comment this line if test narrow planning
-MIN_NUM_VERT = 20  # Minimum number of vertex in the graph
+MIN_NUM_VERT = 40-5*((rank-1)%5)  # Minimum number of vertex in the graph
 MAX_NUM_VERT = 5000  # Maximum number of vertex in the graph
-STEP_DISTANCE = 5+3*(rank%5)  # Maximum distance between two vertex
+STEP_DISTANCE = 7+2*((rank-1)%5)  # Maximum distance between two vertex
 SEED = rank  # For random numbers
 
 
@@ -50,14 +50,11 @@ def compute_length(path):
 
 def rapidlyExploringRandomTree(img, start, goal, seed=None):
     ls_time = time.time()
-    hundreds = 100
     random.seed(seed)
     points = []
     graph = []
     points.append(start)
     graph.append((start, []))
-    print
-    'Generating and conecting random points'
     occupied = True
     phaseTwo = False
 
@@ -66,33 +63,21 @@ def rapidlyExploringRandomTree(img, start, goal, seed=None):
     maxX = min(goal[0] + 10 * STEP_DISTANCE, len(img[0]) - 1)
     minY = max(goal[1] - 10 * STEP_DISTANCE, 0)
     maxY = min(goal[1] + 10 * STEP_DISTANCE, len(img) - 1)
-    # ======= Biased Sampling =======
-    if rank // 5==0:
+    # ======= Biased Sampling prepare =======
+    if (rank-1) // 5==0 and rank > 0:
         thresh1 = np.load('./distributions/'+task+'prob.npy')
         rows,cols = thresh1.shape
         xP = thresh1.flatten() / np.sum(thresh1)
-    #yP = np.sum(thresh1, axis=1) / np.sum(thresh1)
         x = np.arange(rows*cols)
-    #y = np.arange(117)
-    # blacks_x = np.random.choice(x,size=1,replace=True, p=xP)
-    # blacks_y = np.random.choice(y,size=1,replace=True, p=yP)
-
+    # =======================================
     i = 0
-    while (goal not in points) and (len(points) < MAX_NUM_VERT):
-        if (i % 100) == 0:
-            print
-            i, 'points randomly generated'
-
-        if (len(points) % hundreds) == 0:
-            print
-            len(points), 'vertex generated'
-            hundreds = hundreds + 100
+    while (goal not in points) and (len(points) < MAX_NUM_VERT) and i <= 100000:
 
         while (occupied):
-            if phaseTwo and (random.random() > 0.8):
+            if phaseTwo and (random.random() > 0.9):
                 point = [random.randint(minX, maxX), random.randint(minY, maxY)]
             else:
-                if rank //5 == 1:
+                if (rank-1) //5 == 1:
                     point = [random.randint(0, len(img[0]) - 1), random.randint(0, len(img) - 1)]
                 else:
                     p = np.random.choice(x, size=1, replace=True, p=xP)[0]
@@ -108,13 +93,11 @@ def rapidlyExploringRandomTree(img, start, goal, seed=None):
         addToGraph(graph, newPoints)
         newPoints.pop(0)  # The first element is already in the points list
         points.extend(newPoints)
-        #plt.draw()
         i = i + 1
 
         if len(points) >= MIN_NUM_VERT:
             if not phaseTwo:
-                print
-                'Phase Two'
+                print('Phase Two')
             phaseTwo = True
 
         if phaseTwo:
@@ -123,27 +106,11 @@ def rapidlyExploringRandomTree(img, start, goal, seed=None):
             addToGraph(graph, newPoints)
             newPoints.pop(0)
             points.extend(newPoints)
-            #plt.draw()
 
-    if goal in points:
-        print
-        'Goal found, total vertex in graph:', len(points), 'total random points generated:', i
+    if goal in points and i<= 100000:
         path = searchPath(graph, start, [start])
-        '''
-        for i in range(len(path) - 1):
-            ax.plot([path[i][0], path[i + 1][0]], [path[i][1], path[i + 1][1]], color='g', linestyle='-', linewidth=2)
-            plt.draw()
-        '''
-        #print('Showing resulting map')
-        #print('Final path:', path)
-        #print('The final path is made from:', len(path), 'connected points')
     else:
         path = None
-        #print('Reached maximum number of vertex and goal was not found')
-        #print('Total vertex in graph:', len(points), 'total random points generated:', i)
-        #print('Showing resulting map')
-    #print("Taken:{0} second to converge".format(time.time() - ls_time))
-    #plt.show()
     return path
 
 def searchPath(graph, point, path):
@@ -318,13 +285,6 @@ def server_task():
     plt.imshow(image_result) 
     plt.show()
 
-if len(sys.argv) > 2:
-    print('Only one argument is needed')
-elif len(sys.argv) > 1:
-    if os.path.isfile(sys.argv[1]):
-        MAP_IMG = sys.argv[1]
-    else:
-        print(sys.argv[1], 'is not a file')
 if rank == 0:
     server_task()
 else:

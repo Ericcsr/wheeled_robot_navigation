@@ -120,7 +120,7 @@ def rapidlyExploringRandomTree(img, start, goal, seed=None):
             newPoints.pop(0)
             points.extend(newPoints)
 
-    if goal in points and i<= 10000:
+    if goal in points and i<= 100000:
         path = searchPath(graph, start, [start])
     else:
         path = None

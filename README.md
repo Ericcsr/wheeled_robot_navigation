@@ -38,11 +38,11 @@ python3 rrt_example.py <icra_new/narrow>
 ```
 #### Isolated Our RRT test
 ```
-mpiexec -n 10 python3 bias_rrt_example.py <icra_new/narrow>
+mpiexec -n 11 python3 bias_rrt_example.py <icra_new/narrow>
 ```
 #### Navigation Fully functional test
 ```
-mpiexec -n 10 python3 main.py icra_new
+mpiexec -n 11 python3 main.py icra_new
 ```
 - Select a start point on the displayed map.
 - Select a goal point on the displayed map.
