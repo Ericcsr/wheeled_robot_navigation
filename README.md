@@ -40,6 +40,10 @@ python3 rrt_example.py <icra_new/narrow>
 ```
 mpiexec -n 11 python3 bias_rrt_example.py <icra_new/narrow>
 ```
+### A* test for comparsion
+```
+python3 astar_example.py <icra_new/narrow>
+```
 #### Navigation Fully functional test
 ```
 mpiexec -n 11 python3 main.py icra_new
@@ -118,6 +122,11 @@ However, since ground truth best path length is not directly measurable. Using m
     - Larger the value , slower the algorithm but more flexible in narrow space planning
     - Smaller the value, faster the algorithm but more likely to fail in narrow space planning.
     - Recommanded range: [1500 - 5000] for icra_new and [3000 - 7000] for narrow planning
+
+## Performace analysis and comparision
+![image](./images/compare.JPG)
+
+#### The result shows our planning algorithm is at least 20 times faster than A* implemented in RoboRTS.
 
 ## References
 ### Open Source Code

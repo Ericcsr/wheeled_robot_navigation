@@ -271,9 +271,11 @@ def server_task():
     plt.draw()
     print('Map is', len(img[0]), 'x', len(img))
     start, goal = selectStartGoalPoints(ax, img)
+    ls_time = time.time()
     sendpack = Workpack(img,start,goal)
     _  = comm.bcast(sendpack,root=0)
     results = comm.gather(None,root=0)[1:]
+    t = time.time() - ls_time
     rs = []
     for r in results:
         if r is not None:
@@ -283,6 +285,7 @@ def server_task():
     image_result = visualize(optimal_path,disp)
     print('Shape:',image_result.shape)
     plt.imshow(image_result) 
+    plt.title("Time Cost:{0}".format(t))
     plt.show()
 
 if rank == 0:
