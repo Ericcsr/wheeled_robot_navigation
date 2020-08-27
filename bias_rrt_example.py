@@ -41,6 +41,12 @@ class Resultpack:
         return self.length == other.length
 
 def compute_length(path):
+    ''' Calculate length of a trajectory
+    Args:
+        path: double list path
+    Return:
+    length: length in pix of the path
+    '''
     length = 0.0
     for i in range(len(path)-1):
         start = (path[i][0],path[i][1])
@@ -49,6 +55,10 @@ def compute_length(path):
     return length
 
 def rapidlyExploringRandomTree(img, start, goal, seed=None):
+    '''Mainbody of the algorithm
+    Args:
+        img: map image
+    '''
     ls_time = time.time()
     random.seed(seed)
     points = []
@@ -114,6 +124,13 @@ def rapidlyExploringRandomTree(img, start, goal, seed=None):
     return path
 
 def searchPath(graph, point, path):
+    '''Helper - Perform Graph Search for the path
+    Args:
+        graph: the current graph maintained by RRT
+        point: point for checking
+    Returns:
+        finalPath
+    '''
     for i in graph:
         if point == i[0]:
             p = i
@@ -131,24 +148,26 @@ def searchPath(graph, point, path):
             path.pop()
 
 def addToGraph( graph, newPoints):
+    '''Helper -  Add a point to graph
+    Args:
+        graph: current graph maintained by RRT
+        point: point for checking
+    '''
     if len(newPoints) > 1:  # If there is anything to add to the graph
         for p in range(len(newPoints) - 1):
             nearest = [nearest for nearest in graph if (nearest[0] == [newPoints[p][0], newPoints[p][1]])]
             nearest[0][1].append(newPoints[p + 1])
             graph.append((newPoints[p + 1], []))
-        '''
-            if not p == 0:
-                ax.plot(newPoints[p][0], newPoints[p][1], '+k')  # First point is already painted
-            ax.plot([newPoints[p][0], newPoints[p + 1][0]], [newPoints[p][1], newPoints[p + 1][1]], color='k',
-                    linestyle='-', linewidth=1)
-
-        if point in newPoints:
-            ax.plot(point[0], point[1], '.g')  # Last point is green
-        else:
-            ax.plot(newPoints[p + 1][0], newPoints[p + 1][1], '+k')  # Last point is not green
-        '''
 
 def connectPoints(a, b, img):
+    '''Helper -  Check weather two nodes are connectable
+    Args:
+        a: one node
+        b: the second node
+        img: map
+    Returns:
+        newpoints: points add in the midway
+    '''
     newPoints = []
     newPoints.append([b[0], b[1]])
     step = [(a[0] - b[0]) / float(STEP_DISTANCE), (a[1] - b[1]) / float(STEP_DISTANCE)]
@@ -193,6 +212,13 @@ def connectPoints(a, b, img):
     return newPoints
 
 def findNearestPoint(points, point):
+    '''Helper - Search for nearest point
+    Args:
+        points: points search space
+        point:point which need to find adjacency
+    Returns:
+        (best[0],best[1]): The coord of the point which is nearest
+    '''
     best = (999999, 999999, 999999)
     for p in points:
         if p == point:
@@ -203,6 +229,14 @@ def findNearestPoint(points, point):
     return (best[0], best[1])
 
 def selectStartGoalPoints(ax, img):
+    '''Select start and end point on GUI
+    Args:
+        ax: the handle of the ploter
+        img: map
+    Returns:
+        start: start point
+        goal: goal point
+    '''
     print('Select a starting point')
     ax.set_xlabel('Select a starting point')
     occupied = True
@@ -233,6 +267,13 @@ def selectStartGoalPoints(ax, img):
     return start, goal
 
 def visualize(lines,image):
+    '''plot the path on the image
+    Args:
+        lines: path
+        image: map
+    Returns:
+        image which has been ploted
+    '''
     image =image.copy()
     for i,point in enumerate(lines):
         #print(point)
@@ -245,6 +286,8 @@ def visualize(lines,image):
     return image
 
 def worker_task():
+    '''Distributed planner
+    '''
     pack = comm.bcast(None,root=0)
     image = pack.image
     start,goal = pack.points
@@ -260,6 +303,8 @@ def worker_task():
 
 
 def server_task():
+    '''Centralized info server
+    '''
     print('Loading map... with file \'', MAP_IMG, '\'')
     img = imread(MAP_IMG)
     disp = imread(DISPLAY)
